@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eth-gas-swap-api
+    env_file:
+      - ./.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run start:prod
+    restart: unless-stopped
+    networks:
+      - api-network
+
+networks:
+  api-network:
+
+
