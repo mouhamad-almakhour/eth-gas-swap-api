@@ -122,23 +122,28 @@ Response example:
 
 ### Uniswap Endpoint
 
-#### Calculate Swap
+#### Swap Estimate (Uniswap V2)
 ```http
-GET /return/:fromTokenAddress/:toTokenAddress/:amountIn
+POST /swap-change
 ```
-Returns the estimated output amount for a token swap on Uniswap V2.
+Locates the Uniswap V2 pool, reads reserves, and returns the expected output for a swap.
 
-**Parameters**:
+**Body (JSON, validated by `GetReturnDto`)**:
+- `fromTokenAddress` — source token (ERC20) address  
+- `toTokenAddress` — destination token (ERC20) address  
+- `amountIn` — exact input amount in human-readable units (string, e.g., `"1.5"`)
 
-* fromTokenAddress — source token address
-
-* toTokenAddress — destination token address
-
-* amountIn — exact input amount (in token units)
-
-Request body example: 
+Request example:
 ```json
-//(Swap 1 LINK --> USDC)
+{
+  "fromTokenAddress": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+  "toTokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "amountIn": "1"
+}
+```
+
+Response example:
+```json
 {
   "fromToken": {
     "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
