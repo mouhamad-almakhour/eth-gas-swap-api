@@ -6,55 +6,53 @@ import { IsString, IsNumber, ValidateNested } from 'class-validator';
  */
 
 class TokenInfoDto {
-    @Expose()
-    @IsString()
-    address: string;
+  @Expose()
+  @IsString()
+  address: string;
 
-    @Expose()
-    @IsString()
-    symbol: string;
+  @Expose()
+  @IsString()
+  symbol: string;
 
-    @Expose()
-    @IsNumber()
-    decimals: number;
+  @Expose()
+  @IsNumber()
+  decimals: number;
 }
 export class UniswapResponseDto {
+  @Expose()
+  @ValidateNested()
+  @Type(() => TokenInfoDto)
+  fromToken: TokenInfoDto;
 
-    @Expose()
-    @ValidateNested()
-    @Type(() => TokenInfoDto)
-    fromToken: TokenInfoDto;
+  @Expose()
+  @ValidateNested()
+  @Type(() => TokenInfoDto)
+  toToken: TokenInfoDto;
 
-    @Expose()
-    @ValidateNested()
-    @Type(() => TokenInfoDto)
-    toToken: TokenInfoDto;
+  @Expose()
+  @IsString()
+  amountIn: string;
 
-    @Expose()
-    @IsString()
-    amountIn: string;
+  @Expose()
+  @IsString()
+  amountOut: string;
 
-    @Expose()
-    @IsString()
-    amountOut: string;
+  @Expose()
+  @IsString()
+  amountInFormatted: string;
 
-    @Expose()
-    @IsString()
-    amountInFormatted: string;
+  @Expose()
+  @IsString()
+  amountOutFormatted: string;
 
-    @Expose()
-    @IsString()
-    amountOutFormatted: string;
+  @Expose()
+  @IsString()
+  pairAddress: string;
 
-    @Expose()
-    @IsString()
-    pairAddress: string;
-
-    @Expose()
-    @IsString()
-    reserves: {
-        reserve0: string;
-        reserve1: string;
-    };
-
+  @Expose()
+  @IsString()
+  reserves: {
+    reserve0: string;
+    reserve1: string;
+  };
 }
