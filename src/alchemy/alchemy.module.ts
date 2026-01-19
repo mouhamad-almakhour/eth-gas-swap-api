@@ -2,7 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { AlchemyService } from './alchemy.service';
 
 /**
- * This module provide the AchemyService as a global service
+ * This module provide the AlchemyService as a global service
  */
 
 @Global()
@@ -10,4 +10,4 @@ import { AlchemyService } from './alchemy.service';
   providers: [AlchemyService],
   exports: [AlchemyService],
 })
-export class AlchemyModule {}
+export class AlchemyModule { }

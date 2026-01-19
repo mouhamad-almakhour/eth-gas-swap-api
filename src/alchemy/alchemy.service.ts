@@ -21,7 +21,7 @@ export class AlchemyService implements OnModuleInit {
   }
   // Initialize the Alchemy provider when the module is initialized
   async onModuleInit() {
-    this.initializeAlchemyProvider();
+    await this.initializeAlchemyProvider();
   }
 
   // Initialize Alchemy provider
@@ -34,7 +34,7 @@ export class AlchemyService implements OnModuleInit {
 
       this.logger.log(
         `Connected to Alchemy on  Ethereum: ${this.network}\n` +
-          ` via Provider: ${this.provider.constructor.name}`,
+        ` via Provider: ${this.provider.constructor.name}`,
       );
     } catch (error) {
       this.logger.error(

@@ -22,6 +22,11 @@ export class GasPriceService implements OnModuleInit {
   async onModuleInit(): Promise<void> {
     this.logger.log('Initializing gas price cache...');
     await this.updateGasPriceCache();
+    const cached = await this.cache.get('gasPrice');
+    if (!cached) {
+      this.logger.error('Gas price cache failed to initialize');
+      throw new Error('Gas price cache initialization failed');
+    }
     this.logger.log('Gas price cache initialized successfully');
   }
 
@@ -51,9 +56,9 @@ export class GasPriceService implements OnModuleInit {
       const duration = Date.now() - startTime;
       this.logger.log(
         `Gas price updated successfully in ${duration}ms | ` +
-          `Block: ${gasPrice.blockNumber} | ` +
-          `Base: ${gasPrice.baseFee} Gwei | ` +
-          `Standard: ${gasPrice.standard} Gwei`,
+        `Block: ${gasPrice.blockNumber} | ` +
+        `Base: ${gasPrice.baseFee} Gwei | ` +
+        `Standard: ${gasPrice.standard} Gwei`,
       );
     } catch (error) {
       this.logger.error(

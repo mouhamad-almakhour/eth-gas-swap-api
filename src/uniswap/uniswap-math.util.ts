@@ -56,7 +56,9 @@ export class UniswapMath {
         ? [tokenA, tokenB]
         : [tokenB, tokenA];
 
-    if (!token0) {
+    const zeroAddress = '0x0000000000000000000000000000000000000000';
+    if (token0.toLowerCase() === zeroAddress || token1.toLowerCase() === zeroAddress) {
+
       throw new Error('ZERO_ADDRESS');
     }
 
