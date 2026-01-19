@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { ethers } from 'ethers';
 import { AlchemyService } from '../alchemy/alchemy.service';
 import { UniswapMath } from './uniswap-math.util';
@@ -18,7 +23,6 @@ import { GetReturnDto } from './dto/create-swap.dto';
 export class UniswapService {
   private readonly logger = new Logger(UniswapService.name);
   private readonly factoryAddress: string;
-  private readonly defaultTokenMetadata = { symbol: 'UNKNOWN', decimals: 18 };
 
   constructor(
     private alchemyService: AlchemyService,
@@ -134,6 +138,8 @@ export class UniswapService {
 
   /**
    * Fetches token metadata (symbol and decimals)
+   * Throws BadRequestException if token metadata cannot be fetched
+   * to prevent incorrect calculations with wrong decimals
    */
   private async getTokenInfo(tokenAddress: string): Promise<TokenMetadata> {
     const provider = this.alchemyService.getProvider(); // Using Alchemy provider
@@ -146,9 +152,12 @@ export class UniswapService {
       ]);
       return { symbol, decimals };
     } catch (error) {
-      this.logger.warn(`Could not fetch token info for ${tokenAddress}`);
-      // Fallback preserves shape expected by Uniswap math utils
-      return { ...this.defaultTokenMetadata };
+      this.logger.error(
+        `Failed to fetch token metadata for ${tokenAddress}: ${error.message}`,
+      );
+      throw new BadRequestException(
+        `Failed to fetch token metadata for ${tokenAddress}: ${error.message}`,
+      );
     }
   }
 }

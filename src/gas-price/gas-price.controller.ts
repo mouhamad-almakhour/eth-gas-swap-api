@@ -18,7 +18,7 @@ import { ApiOperation } from '@nestjs/swagger';
 export class GasPriceController {
   private readonly logger = new Logger(GasPriceController.name);
 
-  constructor(private readonly gasPriceService: GasPriceService) {}
+  constructor(private readonly gasPriceService: GasPriceService) { }
 
   // Get current gas price
   @ApiOperation({
@@ -29,7 +29,7 @@ export class GasPriceController {
   async getGasPrice(): Promise<GasPriceResponseDto> {
     try {
       //  Use cached gas price for ultra-fast response
-      return this.gasPriceService.getCachedGasPrice();
+      return await this.gasPriceService.getCachedGasPrice();
 
       // calculate response time manually for debugging
       //  const startTime = Date.now();
