@@ -3,7 +3,7 @@ import { UniswapController } from './uniswap.controller';
 import { UniswapService } from './uniswap.service';
 
 @Module({
-    controllers: [UniswapController],
-    providers: [UniswapService],
+  controllers: [UniswapController],
+  providers: [UniswapService],
 })
-export class UniswapModule { }
+export class UniswapModule {}

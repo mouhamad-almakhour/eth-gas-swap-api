@@ -6,6 +6,5 @@ import { CacheModule } from '@nestjs/cache-manager';
   imports: [CacheModule.register()],
   providers: [GasPriceService],
   controllers: [GasPriceController],
-
 })
-export class GasPriceModule { }
+export class GasPriceModule {}
