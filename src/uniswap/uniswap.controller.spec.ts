@@ -3,7 +3,6 @@ import { UniswapController } from './uniswap.controller';
 import { UniswapService } from './uniswap.service';
 import { GetReturnDto } from './dto/create-swap.dto';
 import { UniswapResponseDto } from './dto/uniswap-response.dto';
-import { BadRequestException } from '@nestjs/common';
 
 describe('UniswapController', () => {
   let controller: UniswapController;
@@ -54,17 +53,12 @@ describe('UniswapController', () => {
     const result = await controller.getReturn(dto);
 
     expect(result).toEqual(mockResponse);
-    expect(service.getReturn).toHaveBeenCalledWith(
-      dto.fromTokenAddress,
-      dto.toTokenAddress,
-      dto.amountIn,
-    );
+    expect(service.getReturn).toHaveBeenCalledWith(dto);
   });
 
-  it('should throw BadRequestException if service throws', async () => {
-    (service.getReturn as jest.Mock).mockRejectedValue(
-      new Error('Invalid input'),
-    );
+  it('should propagate service errors', async () => {
+    const serviceError = new Error('Invalid input');
+    (service.getReturn as jest.Mock).mockRejectedValue(serviceError);
 
     const dto: GetReturnDto = {
       fromTokenAddress: '0xInvalidToken',
@@ -72,8 +66,7 @@ describe('UniswapController', () => {
       amountIn: '1.5',
     };
 
-    await expect(controller.getReturn(dto)).rejects.toThrow(
-      BadRequestException,
-    );
+    // Controller no longer wraps errors, so it should propagate the original error
+    await expect(controller.getReturn(dto)).rejects.toThrow(serviceError);
   });
 });
