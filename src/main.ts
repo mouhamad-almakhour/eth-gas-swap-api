@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
@@ -16,11 +17,14 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // Swagger UI at /api
+
+  SwaggerModule.setup('v1/api/docs', app, document);
+
   app.enableCors();
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
   logger.log(`🚀 Application is running on: http://localhost:${port}`);
-  logger.log(`🚀 API Docs is running on: http://localhost:${port}/api`);
+  logger.log(`🚀 API Docs is running on: http://localhost:${port}/v1/api/docs`);
 }
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

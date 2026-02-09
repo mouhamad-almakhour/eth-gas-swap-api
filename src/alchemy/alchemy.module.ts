@@ -10,4 +10,4 @@ import { AlchemyService } from './alchemy.service';
   providers: [AlchemyService],
   exports: [AlchemyService],
 })
-export class AlchemyModule { }
+export class AlchemyModule {}
