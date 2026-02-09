@@ -13,8 +13,8 @@ export class AlchemyService implements OnModuleInit {
     const apiKey = this.configService.get<string>('alchemy.apiKey');
 
     if (!apiKey) {
-      this.logger.error('ALCHEMY_API_KEY missing');
-      return;
+      throw new Error('ALCHEMY_API_KEY is not configured');
+    }
     }
 
     const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
