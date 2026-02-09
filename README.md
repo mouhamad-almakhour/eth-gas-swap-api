@@ -40,7 +40,7 @@ Before you begin, ensure you have the following installed:
 
 ## Configuration: .env
 
-1. Create a `.env` file in the root directory rom the sample with the following variables:
+1. Create a `.env` file in the root directory from the sample with the following variables:
 
 ```bash
 cp .env-sample .env

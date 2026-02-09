@@ -25,7 +25,7 @@ export class GasPriceController {
     summary:
       'Get current Ethereum gas prices (all values (except formatted) in Gwei)  (v1)',
   })
-  @Get('gasPrice')
+  @Get('gas-price')
   async getGasPrice(): Promise<GasPriceResponseDto> {
     try {
       //  Use cached gas price for ultra-fast response

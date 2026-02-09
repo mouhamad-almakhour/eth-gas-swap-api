@@ -2,11 +2,11 @@
 GET http://localhost:3000
 
 ### Request Fetch Gas Price
-GET http://localhost:3000/v1/api/gasPrice
+GET http://localhost:3000/v1/api/gas-price
 
 
 ### Request swap USDC to WETH 5000
-POST  https://localhost:3000/v1/api/swap-change
+POST  http://localhost:3000/v1/api/swap-change
 Content-Type: application/json
 
 {
