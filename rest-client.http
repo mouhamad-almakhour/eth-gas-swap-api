@@ -2,19 +2,38 @@
 GET http://localhost:3000
 
 ### Request Fetch Gas Price
-GET http://localhost:3000/gasPrice
+GET http://localhost:3000/v1/api/gasPrice
 
 
 ### Request swap USDC to WETH 5000
-GET http://localhost:3000/return/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/5000
+POST  https://localhost:3000/v1/api/swap-change
+Content-Type: application/json
 
+{
+  "fromTokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "toTokenAddress": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  "amountIn": "5000"
+}
 
 ### Request swap LINK to USDC 1
-GET http://localhost:3000/return/0x514910771AF9Ca656af840dff83E8264EcF986CA/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/1
+POST http://localhost:3000/v1/api/swap-change
+Content-Type: application/json
+
+{
+  "fromTokenAddress": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+  "toTokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "amountIn": "1"
+}
 
 
 
 ### Request swap USDC to LINK 23
-GET http://localhost:3000/return/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/0x514910771AF9Ca656af840dff83E8264EcF986CA/23.5
+POST https://eth-gas-swap-5sp9zvhu7-mouhamad-almakhours-projects.vercel.app/swap-change
+Content-Type: application/json
 
+{
+  "fromTokenAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  "toTokenAddress": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+  "amountIn": "12.7"
+}
 
