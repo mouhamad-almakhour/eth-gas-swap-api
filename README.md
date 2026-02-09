@@ -1,10 +1,12 @@
 # Eth Gas & Uniswap API
 
-A NestJS-based REST API backend  service that provides:
+A NestJS-based REST API backend service that provides:
+
 - Real-time Ethereum gas price (cached, fast response)
 - Uniswap V2 token swap estimation
 
 # Table of Contents
+
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
@@ -15,33 +17,37 @@ A NestJS-based REST API backend  service that provides:
 - [API Examples](#api-examples)
 
 # Features
+
 - 🔄 Fast gas price estimates with response time < 50ms via Alchemy
-- 🔄 Gas price refresh every 12 seconds (cron job)  
+- 🔄 Gas price refresh every 12 seconds (cron job)
 - 💱 Uniswap V2 swap calculations and price quotes
 - 📊 Interactive Swagger API documentation
-- 📊 Clean DTO-based response structure  
+- 📊 Clean DTO-based response structure
 - 🔒 Environment validation for secure deployment
 - 🐳 Docker and docker-compose support
 
 # Getting Started
 
 ## Prerequisites
+
 Before you begin, ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (>= 16.x)
 - [npm](https://www.npmjs.com/) (>= 8.x) or [yarn](https://yarnpkg.com/)
 - An [Alchemy](https://www.alchemy.com/) account and API key
 - [Docker Engine](https://docs.docker.com/engine/) `1.27+`
-- Access to an Ethereum RPC node ( [infura](https://www.infura.io/), [alchemy](https://www.alchemy.com/), [quicknode](https://www.quicknode.com/)  )
+- Access to an Ethereum RPC node ( [infura](https://www.infura.io/), [alchemy](https://www.alchemy.com/), [quicknode](https://www.quicknode.com/) )
 
+## Configuration: .env
 
+1. Create a `.env` file in the root directory from the sample with the following variables:
 
-## Configuration: .env 
-1. Create a `.env` file in the root directory rom the sample with the following variables:
 ```bash
 cp .env-sample .env
 ```
+
 2. Fill in the required variables:
+
 ```bash
 # Required
 ALCHEMY_API_KEY=your_alchemy_api_key    # Your Alchemy API key
@@ -55,12 +61,14 @@ UNISWAP_FACTORY_ADDRESS=0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f  # UniswapV2 
 ## Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd eth-gas-swap-api
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or using yarn
@@ -68,6 +76,7 @@ yarn install
 ```
 
 3. Build the project:
+
 ```bash
 npm run build
 # or using yarn
@@ -90,6 +99,7 @@ npm run start:debug
 ```
 
 The API will be available at:
+
 - API Endpoints: http://localhost:3000
 - Swagger Documentation: http://localhost:3000/api
 
@@ -98,13 +108,16 @@ The API will be available at:
 ### 1. Gas Price Endpoint
 
 #### Get Current Gas Price
-```http
-GET /gas-price
+
 ```
+http GET v1/api/gas-price
+```
+
 - Returns the current gas price in Gwei with metadata.
 - Cached to guarantee < 50ms response time.
 
 Response example:
+
 ```json
 {
   "slow": 1.75751619,
@@ -123,17 +136,21 @@ Response example:
 ### Uniswap Endpoint
 
 #### Swap Estimate (Uniswap V2)
-```http
-POST /swap-change
+
 ```
+http POST v1/api/swap-change
+```
+
 Locates the Uniswap V2 pool, reads reserves, and returns the expected output for a swap.
 
 **Body (JSON, validated by `GetReturnDto`)**:
-- `fromTokenAddress` — source token (ERC20) address  
-- `toTokenAddress` — destination token (ERC20) address  
+
+- `fromTokenAddress` — source token (ERC20) address
+- `toTokenAddress` — destination token (ERC20) address
 - `amountIn` — exact input amount in human-readable units (string, e.g., `"1.5"`)
 
 Request example:
+
 ```json
 {
   "fromTokenAddress": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
@@ -143,6 +160,7 @@ Request example:
 ```
 
 Response example:
+
 ```json
 {
   "fromToken": {
@@ -170,11 +188,13 @@ Response example:
 ## Docker Deployment
 
 1. Build the Docker image:
+
 ```bash
 docker build -t eth-gas-swap-api .
 ```
 
 2. Run with docker-compose:
+
 ```bash
 docker-compose up -d
 ```
@@ -190,6 +210,7 @@ npm run test:e2e
 ```
 
 ## Project Structure
+
 ```
 eth-gas-uniswap-api/
 ├── dist/                     # Compiled files
@@ -208,4 +229,5 @@ eth-gas-uniswap-api/
 ```
 
 # Version
+
 Version: 1.0.0

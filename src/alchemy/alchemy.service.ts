@@ -6,21 +6,21 @@ import { ethers } from 'ethers';
 export class AlchemyService implements OnModuleInit {
   private readonly logger = new Logger(AlchemyService.name);
   private provider!: ethers.providers.JsonRpcProvider;
-
-  constructor(private readonly configService: ConfigService) {}
-
-  onModuleInit() {
-    const apiKey = this.configService.get<string>('alchemy.apiKey');
-
-    if (!apiKey) {
-      throw new Error('ALCHEMY_API_KEY is not configured');
+  private readonly apiKey: string | undefined; // Alchemy API key
+  constructor(private readonly configService: ConfigService) {
+    this.apiKey = this.configService.get<string>('alchemy.apiKey');
+    if (!this.apiKey) {
+      this.logger.error('ALCHEMY_API_KEY missing');
+      return;
     }
-    }
+  }
 
-    const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
+  async onModuleInit() {
+    const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${this.apiKey}`;
 
     try {
       this.provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+      await this.provider.getNetwork();
 
       this.logger.log('Alchemy connected');
     } catch (e) {
