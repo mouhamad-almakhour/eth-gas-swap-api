@@ -8,9 +8,9 @@ import { ApiOperation } from '@nestjs/swagger';
  * Controller handling Uniswap swap estimate endpoint
  * Exposes POST /swap-change with swap parameters provided in the request body.
  */
-@Controller('swap-change')
+@Controller('v1/api/swap-change')
 export class UniswapController {
-  constructor(private readonly uniswapService: UniswapService) { }
+  constructor(private readonly uniswapService: UniswapService) {}
 
   @ApiOperation({
     summary:

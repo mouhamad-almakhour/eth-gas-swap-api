@@ -14,31 +14,24 @@ import { ApiOperation } from '@nestjs/swagger';
  * the endpoint is GET /gasPrice and it return a respone object of the type GasPriceResponseDto
  */
 
-@Controller()
+@Controller('v1/api')
 export class GasPriceController {
   private readonly logger = new Logger(GasPriceController.name);
 
-  constructor(private readonly gasPriceService: GasPriceService) { }
+  constructor(private readonly gasPriceService: GasPriceService) {}
 
   // Get current gas price
   @ApiOperation({
     summary:
-      'Get current Ethereum gas prices (all values (except formatted) in Gwei)',
+      'Get current Ethereum gas prices (all values (except formatted) in Gwei)  (v1)',
   })
   @Get('gasPrice')
   async getGasPrice(): Promise<GasPriceResponseDto> {
     try {
       //  Use cached gas price for ultra-fast response
       return await this.gasPriceService.getCachedGasPrice();
-
-      // calculate response time manually for debugging
-      //  const startTime = Date.now();
-      // const gasPrice = this.gasPriceService.getCachedGasPrice();
-      // const responseTime = Date.now() - startTime;
-      //  this.logger.debug(`Response time: ${responseTime}ms`);
-      // return gasPrice;
     } catch (error) {
-      this.logger.error(`Failed to get gas price: ${error.message}`);
+      this.logger.error(`Failed to get gas price: ${error}`);
 
       throw new HttpException(
         {

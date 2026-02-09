@@ -4,48 +4,31 @@ import { ethers } from 'ethers';
 
 @Injectable()
 export class AlchemyService implements OnModuleInit {
-  private readonly logger = new Logger(AlchemyService.name); // Logger instance
-  private provider: ethers.providers.AlchemyProvider; // Alchemy provider instance
-  private readonly apiKey: string | undefined; // Alchemy API key
-  private readonly network: string | undefined; // Alchemy network
+  private readonly logger = new Logger(AlchemyService.name);
+  private provider!: ethers.providers.JsonRpcProvider;
 
-  constructor(private configService: ConfigService) {
-    this.apiKey = this.configService.get<string>('alchemy.apiKey');
-    this.network = this.configService.get<string>('alchemy.network');
+  constructor(private readonly configService: ConfigService) {}
 
-    if (!this.apiKey) {
-      throw new Error(
-        'ALCHEMY_API_KEY is required. Please set it in .env file.',
-      );
+  onModuleInit() {
+    const apiKey = this.configService.get<string>('alchemy.apiKey');
+
+    if (!apiKey) {
+      this.logger.error('ALCHEMY_API_KEY missing');
+      return;
     }
-  }
-  // Initialize the Alchemy provider when the module is initialized
-  async onModuleInit() {
-    await this.initializeAlchemyProvider();
-  }
 
-  // Initialize Alchemy provider
-  private async initializeAlchemyProvider(): Promise<void> {
+    const rpcUrl = `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
+
     try {
-      this.provider = new ethers.providers.AlchemyProvider(
-        this.network,
-        this.apiKey,
-      );
+      this.provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
-      this.logger.log(
-        `Connected to Alchemy on  Ethereum: ${this.network}\n` +
-        ` via Provider: ${this.provider.constructor.name}`,
-      );
-    } catch (error) {
-      this.logger.error(
-        `Failed to connect to Alchemy provider: ${error.message}`,
-      );
-      throw error;
+      this.logger.log('Alchemy connected');
+    } catch (e) {
+      this.logger.error('Alchemy init failed', e as Error);
     }
   }
 
-  // Get the Alchemy provider
-  getProvider(): ethers.providers.AlchemyProvider {
+  getProvider(): ethers.providers.JsonRpcProvider {
     if (!this.provider) {
       throw new Error('Alchemy provider not initialized');
     }

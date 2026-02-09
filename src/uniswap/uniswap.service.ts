@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
   Logger,
@@ -42,9 +43,7 @@ export class UniswapService {
    * @param payload - Request body containing swap parameters
    * @returns Swap details including estimated output
    */
-  async getReturn(
-    payload: GetReturnDto,
-  ): Promise<UniswapResponseDto> {
+  async getReturn(payload: GetReturnDto): Promise<UniswapResponseDto> {
     const { fromTokenAddress, toTokenAddress, amountIn } = payload;
 
     try {
@@ -57,6 +56,7 @@ export class UniswapService {
         provider,
       );
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const pairAddress = await factory.getPair(
         fromTokenAddress,
         toTokenAddress,
